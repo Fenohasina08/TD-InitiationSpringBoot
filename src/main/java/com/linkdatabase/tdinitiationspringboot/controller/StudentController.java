@@ -24,6 +24,9 @@ public class StudentController {
                 .map(s -> s.getFirstName() + " " + s.getLastName())
                 .collect(Collectors.joining(", "));
     }
-
+    @GetMapping("/students")
+    public String getStudents(@RequestHeader("Accept") String acceptHeader) {
+         return "En-tête Accept reçu : " + acceptHeader;
+    }
 
 }
