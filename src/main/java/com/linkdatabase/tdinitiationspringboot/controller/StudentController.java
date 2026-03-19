@@ -1,5 +1,7 @@
 package com.linkdatabase.tdinitiationspringboot.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.linkdatabase.tdinitiationspringboot.model.Student;
 
@@ -25,8 +27,16 @@ public class StudentController {
                 .collect(Collectors.joining(", "));
     }
     @GetMapping("/students")
-    public String getStudents(@RequestHeader("Accept") String acceptHeader) {
-         return "En-tête Accept reçu : " + acceptHeader;
+    public ResponseEntity<String> getStudents(@RequestHeader("Accept") String acceptHeader) {
+        if ("text/plain".equals(acceptHeader)) {
+            String names = listStudent.stream()
+                    .map(s -> s.getFirstName() + " " + s.getLastName())
+                    .collect(Collectors.joining(", "));
+            return ResponseEntity.ok(names); // 200 OK avec la chaîne
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                    .body("Format non supporté");
+        }
     }
 
 }
