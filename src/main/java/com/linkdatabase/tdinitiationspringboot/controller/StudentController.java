@@ -10,4 +10,6 @@ public class StudentController {
     public String welcome(@RequestParam String name) {
         return  "Welcome " + name;
     }
+
+
 }
