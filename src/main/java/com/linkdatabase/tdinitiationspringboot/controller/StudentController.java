@@ -23,11 +23,13 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public String  createStudent(@RequestBody List<Student> students) {
-        listStudent.addAll(students);
-        return listStudent.stream()
-                .map(s -> s.getFirstName() + " " + s.getLastName())
-                .collect(Collectors.joining(", "));
+    public ResponseEntity<List<Student>> createStudent(@RequestBody List<Student> students) {
+        try {
+            listStudent.addAll(students);
+            return ResponseEntity.status(HttpStatus.CREATED).body(listStudent);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
     @GetMapping("/students")
     public ResponseEntity<String> getStudents(@RequestHeader("Accept") String acceptHeader) {
