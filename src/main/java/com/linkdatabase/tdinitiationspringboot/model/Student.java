@@ -12,5 +12,5 @@ public class Student {
     private String Reference;
     private String FirstName ;
     private String LastName ;
-    private Integer Age ;
+    private int Age ;
 }
