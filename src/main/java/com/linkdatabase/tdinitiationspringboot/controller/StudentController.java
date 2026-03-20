@@ -15,8 +15,11 @@ public class StudentController {
     private List<Student> listStudent = new ArrayList<>();
 
     @GetMapping("/welcome")
-    public String welcome(@RequestParam String name) {
-        return  "Welcome " + name;
+    public ResponseEntity<String> welcome(@RequestParam(name = "name", required = false) String name) {
+        if (name == null || name.isBlank()) {
+            return ResponseEntity.badRequest().body("Le paramètre 'name' est requis");
+        }
+        return ResponseEntity.ok("Welcome " + name);
     }
 
     @PostMapping("/students")
