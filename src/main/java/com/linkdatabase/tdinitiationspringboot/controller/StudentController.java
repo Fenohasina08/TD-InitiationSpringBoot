@@ -32,7 +32,7 @@ public class StudentController {
             String names = listStudent.stream()
                     .map(s -> s.getFirstName() + " " + s.getLastName())
                     .collect(Collectors.joining(", "));
-            return ResponseEntity.ok(names); // 200 OK avec la chaîne
+            return ResponseEntity.ok(names);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
                     .body("Format non supporté");
