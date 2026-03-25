@@ -32,13 +32,17 @@ public class StudentController {
     public ResponseEntity<List<Student>> createStudent(@RequestBody List<Student> students) {
         try {
             listStudent.addAll(students);
-            return ResponseEntity.status(HttpStatus.CREATED).body(listStudent);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .header("Content-Type", "application/json")
+                    .body(listStudent);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
         }
     }
 
-    @GetMapping("/students")
     public ResponseEntity<?> getStudents(@RequestHeader(name = "Accept", required = false) String acceptHeader) {
         try {
             if (acceptHeader == null || acceptHeader.isBlank() || "*/*".equals(acceptHeader)) {
