@@ -43,24 +43,38 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/students")
     public ResponseEntity<?> getStudents(@RequestHeader(name = "Accept", required = false) String acceptHeader) {
         try {
             if (acceptHeader == null || acceptHeader.isBlank() || "*/*".equals(acceptHeader)) {
-                 return ResponseEntity.badRequest().body("Accept header is required");
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .header("Content-Type", "text/plain")
+                        .body("Accept header is required");
             }
+
             if ("text/plain".equals(acceptHeader)) {
                 String names = listStudent.stream()
                         .map(s -> s.getFirstName() + " " + s.getLastName())
                         .collect(Collectors.joining(", "));
-                return ResponseEntity.ok(names);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .header("Content-Type", "text/plain")
+                        .body(names);
             } else if ("application/json".equals(acceptHeader)) {
-                return ResponseEntity.ok(listStudent);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .header("Content-Type", "application/json")
+                        .body(listStudent);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
+                return ResponseEntity
+                        .status(HttpStatus.NOT_IMPLEMENTED)
+                        .header("Content-Type", "text/plain")
                         .body("Format non supporté");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
         }
     }
