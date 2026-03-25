@@ -17,9 +17,15 @@ public class StudentController {
     @GetMapping("/welcome")
     public ResponseEntity<String> welcome(@RequestParam(name = "name", required = false) String name) {
         if (name == null || name.isBlank()) {
-            return ResponseEntity.badRequest().body("Le paramètre 'name' est requis");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .header("Content-Type", "text/plain")
+                    .body("Le paramètre 'name' est requis");
         }
-        return ResponseEntity.ok("Welcome " + name);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("Content-Type", "text/plain")
+                .body("Welcome " + name);
     }
 
     @PostMapping("/students")
